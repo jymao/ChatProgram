@@ -6,10 +6,11 @@ import java.io.*;
 
 public class ChatServer {
 
+	//meant as a way for new logins to see the last few messages in the chat
 	private static LinkedList<String> messageQueue = new LinkedList<String>();
 	private static ArrayList<PrintWriter> clientOutputs = new ArrayList<PrintWriter>();
 	
-	public static final int QUEUE_SIZE = 10;
+	private static final int QUEUE_SIZE = 10;
 	
 	public static void main(String[] args) {
 		

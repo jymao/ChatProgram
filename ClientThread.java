@@ -1,16 +1,14 @@
 import java.net.*;
-import java.util.LinkedList;
 import java.io.*;
 
 public class ClientThread extends Thread{
 	
 	private Socket socket = null;
-	private LinkedList<String> messageQueue = null;
+	private boolean end = false;
 	
-	public ClientThread(Socket socket, LinkedList<String> messageQueue) {
+	public ClientThread(Socket socket) {
 		super("ClientThread");
 		this.socket = socket;
-		this.messageQueue = messageQueue;
 	}
 	
 	public void run() {
@@ -21,11 +19,9 @@ public class ClientThread extends Thread{
 			String inputLine;
             
             while ((inputLine = in.readLine()) != null) {
-            	insertMessage(inputLine);
-            	System.out.println("Server: " + inputLine); 
-            	
-            	if(inputLine.equals("Disconnect")) {
-            		ChatClient.endChat();
+            	ChatClient.displayMessage(inputLine);
+
+            	if(end) {
             		break;
             	}
             }
@@ -36,10 +32,5 @@ public class ClientThread extends Thread{
 		}
 	}
 	
-	private void insertMessage(String msg) {
-		if(messageQueue.size() >= ChatServer.QUEUE_SIZE) {
-			messageQueue.remove();
-		}
-		messageQueue.add(msg);
-	}
+	public void setEnd(boolean end) { this.end = end; }
 }

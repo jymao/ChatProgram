@@ -21,10 +21,14 @@ public class ServerThread extends Thread {
 			ChatServer.insertClient(out);
             
             while ((inputLine = in.readLine()) != null) {
-            	System.out.println(inputLine);
-                ChatServer.insertMessage(inputLine);
+            	System.err.println(inputLine);
+            	
+            	//parse message type
+            	int msgType = (int) inputLine.charAt(0);
+            	
+                ChatServer.insertMessage(inputLine.substring(1));
                 
-                if(inputLine.equals("Disconnect")) {
+                if(msgType == Message.LOGOFF.getId()) {
                 	break;
                 }
             }
